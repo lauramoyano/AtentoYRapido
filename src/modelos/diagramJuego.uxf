@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>440</x>
+      <y>50</y>
+      <w>120</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>VistaGUI
+--
+--
+initGUI</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>160</x>
+      <y>90</y>
+      <w>160</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>ControlJuego
+--
+cuadros: ArrayList
+vidas : int
+aciertos : int
+--
+cambiarCuadro:void
+agregarCuadro:void
+contarCuadro: int
+crearTablero:void
+jugar:void
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>450</x>
+      <y>190</y>
+      <w>130</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Cuadro
+--
+color:int
+--
+cambiarColor: void
+getColor: int
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>80</y>
+      <w>150</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;50.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>310</x>
+      <y>130</y>
+      <w>160</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;140.0;70.0</additional_attributes>
+  </element>
+</diagram>
