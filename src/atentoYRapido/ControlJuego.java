@@ -1,38 +1,71 @@
+/*
+ * Programación interactiva
+ * Autor: Laura Moayno - 202023906
+ * miniProyecto 1: juego atento y rapido
+ */
 package atentoYRapido;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 
-
+/**
+ * The Class ControlJuego.
+ */
 public class ControlJuego {
 
-	//private Cuadro c;
 	private ArrayList <Cuadro> cuadros;
-	private boolean boton;
-	//private int estadoJuego;
 	
-	private int indexEncendido;
-	private int nivelJuego;
-	private int aciertos;
-	private int vidas;
+	private boolean button;
+	private int indexShining;
+	private int levelGame;
+	private int hits;
+	private int lives;
 	
 	//metodos
+	
+	/**
+	 * Instantiates a new control juego.
+	 */
 	public ControlJuego() {
 		
 		
-		indexEncendido=0;
-		nivelJuego =3;
-		boton = false; // tiro inicial
-		vidas = 3;
-		aciertos = 0;
+		indexShining=0;
+		button = false; 
+		lives = 3;
+		hits = 0;
 		cuadros = new ArrayList<Cuadro>();
-		crearArray();
+		modifyArray();
 		
 	}
 	
+	/**
+	 * Gets the index encendido.
+	 *
+	 * @return the index encendido
+	 */
+	public int getIndexShining() {
+		return indexShining;
+	}
+
+	/**
+	 * Gets the cuadros.
+	 *
+	 * @return ArrayList the cuadros
+	 */
+	//obtenerArray
+	public ArrayList<Cuadro> getCuadros() {
+		return cuadros;
+	}
+	
+	/**
+	 * cuantas veces está el color en el ArrayList
+	 *
+	 * @param int color de busqueda
+	 * @return int el numero de veces
+	 */
 	// cuantas veces está el color
-	public int cuentaIguales(int color) { 
+	public int countColors(int color) { 
 		int contador = 0;
 		
 		for(int i = 0; i < cuadros.size(); i++) {
@@ -45,100 +78,113 @@ public class ControlJuego {
 	}
 	
 	
-	// si el color se puede agregar  o no
-	
+	/**
+	 * determina si el color se puede agregar  o no
+	 *
+	 * @param color the color
+	 * @return true, if successful
+	 */
 	public boolean maxCuadro(int color) {
-		if(cuentaIguales(color) < 2) {
+		if(countColors(color) < 2) {
 			return true;
 		}
 		return false;
 	}
 	
 	
-	//agrega un cuadro al array
-	public void agregaCuadro(Cuadro cuadro) {
-		int newColor = cuadro.getColor();
-		if(maxCuadro(newColor)) {
-			cuadros.add(cuadro);
-		}else {
-			cuadro.cambiarColor();
-			cuadros.add(cuadro);	
-		}
-	}
-	
-	
+	/**
+	 * obtiene el indice encendido y le cambia el color, en cada poscion del ArrayList
+	 */
 	//cambia el color de los cuadros
-	public void cambiarColor() {
-		cuadros.get(indexEncendido).setEncendido(false);
+	public void changerColor() {
+		cuadros.get(indexShining).setEncendido(false);
 		
-		while(cuadros.get(indexEncendido).isEncendido()== false) {
-			indexEncendido++;
+		while(cuadros.get(indexShining).isEncendido()==false) {
+			indexShining++;
 			
-			if(indexEncendido==8) {
-				indexEncendido=0;
+			if(indexShining== cuadros.size()) {
+				indexShining=0;
 			}
-			cuadros.get(indexEncendido).setEncendido(true);
+			if(cuadros.get(indexShining).getColor()!=0) {
+			cuadros.get(indexShining).setEncendido(true);
 			
 			break;
+			}
 			
 		}
-		cuadros.get(indexEncendido).cambiarColor();
+		cuadros.get(indexShining).cambiarColor();
 	}
 	
 	
+	/**
+	 * Inicia la partida, verificando si ha ganado 
+	 * puntos o perdido vidas y genera un arrayList nuevo cada partida
+	 */
 	// sumar punto o quitar vida
-    public void iniciar() {
+    public void starts() {
     	
-    	int colorEncendido = cuadros.get(indexEncendido).getColor();
-		//si hay dos cuadrados iguales  y boton = true + punto
-    	if(cuentaIguales(colorEncendido) == 2 && boton) {	
-    		aciertos++;
-    		nivelJuego++;
-    		crearArray();
-    			
-    			
-    	}else if(cuentaIguales(colorEncendido) == 2 && !boton || cuentaIguales(colorEncendido) != 2 && boton ) {
-    		vidas--;
-    		nivelJuego--;
-    		crearArray();
-  
-    			
-   		}
+    	if(cuadros.get(indexShining).isEncendido()) {
+    		int colorEncendido = cuadros.get(indexShining).getColor();
+    		//si hay dos cuadrados iguales  y boton = true + punto
+    		if(countColors(colorEncendido) == 2 && button) {	
+    			hits++;
+    			levelGame++;
+    			modifyArray();
+
+    		}else if(countColors(colorEncendido) == 2 || button==true ) {
+    			lives-=1;
+    			//nivelJuego--;
+    			modifyArray();
+
+    		}
+    		//this.cambiarColor();
+    	}
+    	this.changerColor();
 		
 	}
     
+	/**
+	 * Sets the boton.
+	 *
+	 * @param boton the new boton
+	 */
 	public void setBoton(boolean boton) {
-		this.boton = boton;
+		this.button = boton;
 	}
 
-	//genera un array list de cuadros nuevo
-	public void crearArray() {
+	/**
+	 * crea un nuevo, con el minimo tamaño de tres y máximo de 8
+	 *  sin que repita un color
+	 */
+	public void modifyArray() { 
 		int newColor = 1;
 		cuadros.clear();
-		
-		if(nivelJuego < 3) {
-			nivelJuego = 3;
+	
+		if(levelGame < 3) {
+			levelGame = 3;
 		}
-		for(int i = nivelJuego; i> 0; i--) {
+		for(int i = levelGame; i > 0; i--) {
 			Cuadro newCuadro = new Cuadro();
 			
 			if(cuadros.size() == 8) {
-				nivelJuego= 8;
+				levelGame= 8;
 				
 				break;
 			}
-			while(cuentaIguales(newCuadro.getColor())>0) {
+			while(countColors(newCuadro.getColor())>0) {
 				newCuadro.setColor(newColor);
 				newColor++;
 			}
-			cuadros.add(newCuadro);
-			
+			cuadros.add(newCuadro);			
 		}
 		
 		
 	}
 
 	
+	/**
+	 * Prueba, para imprimir los colores de los cuadros en consola
+	 */
 	public void prueba() {
 		
 		Iterator <Cuadro> cuadross = cuadros.iterator();
@@ -151,23 +197,33 @@ public class ControlJuego {
 		
 	}
 	
-	public int getNivelJuego() {
-		return nivelJuego;
+
+	/**
+	 * Gets the lives
+	 *
+	 * @return the vidas
+	 */
+	public int getLives() {
+		return lives;
 	}
 
-	public int getVidas() {
-		return vidas;
+	/**
+	 * gets the hits
+	 *
+	 * @return the hits
+	 */
+	public int determinedHits() {
+		return hits;
 	}
 
-	public int determinarAciertos() {
-		
-		return aciertos;
-	}
 
-	
-	public int getAciertosTotales() {
-		
-		aciertos = determinarAciertos() * 5;
-		return aciertos;
+	/**
+	 * Gets the aciertos totales
+	 *
+	 * @return the aciertos totales
+	 */
+	public int getTotalHits() {
+		int puntos = hits *5;
+		return puntos;
 	}
 }
